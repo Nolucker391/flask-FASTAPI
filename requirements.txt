@@ -5,4 +5,3 @@ flake8-pie==0.15.0
 isort==5.13.2
 mypy==1.13.0
 types-Flask==1.1.6
-
