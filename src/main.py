@@ -3,8 +3,7 @@ from typing import List
 from fastapi import FastAPI
 from sqlalchemy import select
 
-from src import models
-from src import schemas
+from src import models, schemas
 from src.database import engine, session
 
 app = FastAPI()
@@ -22,13 +21,17 @@ async def shutdown():
     await engine.dispose()
 
 
-@app.get('/recipe', response_model=List[schemas.RecipeOutFirst])
+@app.get("/recipe", response_model=List[schemas.RecipeOutFirst])
 async def get_all_recipe() -> List[models.Recipe]:
-    res = await session.execute(select(models.Recipe).order_by(models.Recipe.views.desc(), models.Recipe.cooking_time))
+    res = await session.execute(
+        select(models.Recipe).order_by(
+            models.Recipe.views.desc(), models.Recipe.cooking_time
+        )
+    )
     return res.scalars().all()
 
 
-@app.get('/recipe/{idx}', response_model=schemas.RecipeOutSecond)
+@app.get("/recipe/{idx}", response_model=schemas.RecipeOutSecond)
 async def get_recipe_by_id(idx: int) -> models.Recipe:
     res = await session.execute(select(models.Recipe).where(models.Recipe.id == idx))
     recipe = res.scalars().one()
@@ -36,12 +39,19 @@ async def get_recipe_by_id(idx: int) -> models.Recipe:
     return recipe
 
 
-@app.post('/recipe/', response_model=schemas.RecipeIn)
+@app.post("/recipe/", response_model=schemas.RecipeIn)
 async def add_new_recipe(recipe: schemas.RecipeIn) -> models.Recipe:
-    new_recipe = models.Recipe(name=recipe.name, descr=recipe.descr, views=recipe.views, cooking_time=recipe.cooking_time, ingredients=recipe.ingredients)
+    new_recipe = models.Recipe(
+        name=recipe.name,
+        descr=recipe.descr,
+        views=recipe.views,
+        cooking_time=recipe.cooking_time,
+        ingredients=recipe.ingredients,
+    )
     async with session.begin():
         session.add(new_recipe)
     return new_recipe
+
 
 # curl -X POST http://localhost:8000/recipe/ \
 #      -H "Content-Type: application/json" \

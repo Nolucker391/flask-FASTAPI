@@ -4,7 +4,7 @@ from src.database import Base
 
 
 class Recipe(Base):
-    __tablename__ = 'recipe'
+    __tablename__ = "recipe"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     descr = Column(String)
