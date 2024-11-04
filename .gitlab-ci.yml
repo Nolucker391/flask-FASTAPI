@@ -1,6 +1,6 @@
 workflow:
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+    - if: $CI_PIPELINE_SOURCE == 'push' or $CI_PIPELINE_SOURCE == 'web_push_event' or $CI_COMMIT_BRANCH == 'main'
 
 image: python:3.12
 
@@ -11,9 +11,9 @@ stages:
   - lint
 
 
-before-script:
-    - pip install --upgrade pip
-    - pip install -r requirements.txt
+before_script:
+  - pip install --upgrade pip
+  - pip install -r requirements.txt
 
 unittest:
   stage: test
