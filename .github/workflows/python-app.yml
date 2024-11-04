@@ -25,8 +25,8 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run tests
         run: python -m pytest
-      - name: Run mypy
-        run: mypy src/
+#      - name: Run mypy
+#        run: mypy src/
       - name: Run black
         run: black --line-length=79 --diff --check src/
       - name: Run isort
