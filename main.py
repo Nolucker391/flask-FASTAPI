@@ -1,12 +1,12 @@
 from typing import List
 
+import uvicorn
 from fastapi import FastAPI
 from sqlalchemy import select
 
-from database import session, engine
-import uvicorn
 import models
 import schemas
+from database import engine, session
 
 app = FastAPI()
 
