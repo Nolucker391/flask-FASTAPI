@@ -1,7 +1,7 @@
 from fastapi.testclient import TestClient
-from main import app
+from src.main import app
 import pytest
-from models import Recipe
+from src.models import Recipe
 
 client = TestClient(app)
 
