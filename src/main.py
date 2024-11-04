@@ -1,6 +1,5 @@
 from typing import List
 
-import uvicorn
 from fastapi import FastAPI
 from sqlalchemy import select
 
