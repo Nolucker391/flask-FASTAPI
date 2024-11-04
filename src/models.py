@@ -1,6 +1,6 @@
 from sqlalchemy import ARRAY, Column, Integer, String
 
-from database import Base
+from src.database import Base
 
 
 class Recipe(Base):
@@ -11,3 +11,6 @@ class Recipe(Base):
     views = Column(Integer, default=0)
     cooking_time = Column(Integer, nullable=False)
     ingredients = Column(String, nullable=False)
+
+    def __repr__(self):
+        return f"<Recipe(id={self.id}, name='{self.name}')>"

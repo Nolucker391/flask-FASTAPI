@@ -3,9 +3,9 @@ from typing import List
 from fastapi import FastAPI
 from sqlalchemy import select
 
-import models
-import schemas
-from database import engine, session
+from src import models
+from src import schemas
+from src.database import engine, session
 
 app = FastAPI()
 
@@ -43,4 +43,7 @@ async def add_new_recipe(recipe: schemas.RecipeIn) -> models.Recipe:
         session.add(new_recipe)
     return new_recipe
 
-
+# curl -X POST http://localhost:8000/recipe/ \
+#      -H "Content-Type: application/json" \
+#      -d '{"name":"New Recipe Name","views":0,"cooking_time":30,"ingredients":"List of ingredients","descr":"Description of the recipe"}'
+#
