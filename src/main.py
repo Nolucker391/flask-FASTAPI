@@ -10,7 +10,7 @@ app = FastAPI()
 
 
 @app.on_event("startup")
-async def shutdown():
+async def startup():
     async with engine.begin() as conn:
         await conn.run_sync(models.Base.metadata.create_all)
 
@@ -28,12 +28,17 @@ async def get_all_recipe() -> List[models.Recipe]:
             models.Recipe.views.desc(), models.Recipe.cooking_time
         )
     )
+
     return res.scalars().all()
 
 
 @app.get("/recipe/{idx}", response_model=schemas.RecipeOutSecond)
 async def get_recipe_by_id(idx: int) -> models.Recipe:
-    res = await session.execute(select(models.Recipe).where(models.Recipe.id == idx))
+    res = await session.execute(
+        select(models.Recipe).where(
+            models.Recipe.id == idx
+        )
+    )
     recipe = res.scalars().one()
     recipe.views += 1
     return recipe
@@ -51,9 +56,3 @@ async def add_new_recipe(recipe: schemas.RecipeIn) -> models.Recipe:
     async with session.begin():
         session.add(new_recipe)
     return new_recipe
-
-
-# curl -X POST http://localhost:8000/recipe/ \
-#      -H "Content-Type: application/json" \
-#      -d '{"name":"New Recipe Name","views":0,"cooking_time":30,"ingredients":"List of ingredients","descr":"Description of the recipe"}'
-#
