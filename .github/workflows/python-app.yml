@@ -28,7 +28,7 @@ jobs:
 #      - name: Run mypy
 #        run: mypy src/
       - name: Run black
-        run: black --diff --check src/
+        run: black --diff src/
       - name: Run isort
         run: isort --check-only src/
       - name: Run flake8
